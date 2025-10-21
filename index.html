@@ -3,1101 +3,972 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Business Tools</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Solven.app - Real Estate Automation Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        .pdf-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: #2d2d2d;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+        }
+
+        .page {
+            padding: 20mm;
+            min-height: 297mm;
+            background: #1a1a1a;
+            color: #e0e0e0;
             position: relative;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(100, 116, 139, 0.2);
+            box-sizing: border-box;
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10mm;
+            right: 20mm;
+            color: #666;
+            font-size: 10px;
         }
 
         .header {
-            background: linear-gradient(135deg, #0d9488, #115e59, #0d9488);
-            color: white;
-            padding: 50px 40px 40px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 20mm;
+            padding-bottom: 10mm;
+            border-bottom: 2px solid #404040;
+            page-break-inside: avoid;
         }
 
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
-            animation: rotate 15s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+        .logo {
+            font-size: 24px;
             font-weight: 700;
-            position: relative;
-            z-index: 2;
-            letter-spacing: -0.5px;
+            color: #60a5fa;
+            margin-bottom: 5mm;
         }
 
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.95;
-            max-width: 600px;
-            margin: 0 auto 25px;
-            line-height: 1.7;
-            position: relative;
-            z-index: 2;
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #f0f0f0;
+            margin-bottom: 5mm;
         }
 
-        .value-props {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-
-        .value-prop {
-            text-align: center;
-            max-width: 160px;
-        }
-
-        .value-prop i {
-            font-size: 2.2rem;
-            color: #a7f3d0;
-            margin-bottom: 12px;
-            background: rgba(16, 185, 129, 0.1);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            transition: all 0.3s ease;
-        }
-
-        .value-prop:hover i {
-            transform: scale(1.1);
-            background: rgba(16, 185, 129, 0.2);
-        }
-
-        .value-prop h3 {
-            color: #a7f3d0;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .value-prop p {
-            font-size: 0.95rem;
-            margin: 0;
-            opacity: 0.85;
-            line-height: 1.5;
-        }
-
-        .content {
-            padding: 50px 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            width: 100%;
-            max-width: 520px;
-            background: rgba(30, 41, 59, 0.8);
-            padding: 45px;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(100, 116, 139, 0.2);
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s ease;
-        }
-
-        .form-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #0d9488, #115e59);
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            position: relative;
-            align-items: center;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: #e2e8f0;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 420px;
-            text-align: left;
-            transition: all 0.3s ease;
-        }
-
-        .form-group label .required {
-            color: #ef4444;
-            font-weight: bold;
-        }
-
-        .form-group:hover label {
-            color: #a7f3d0;
-        }
-
-        .form-group input,
-        .form-group select {
-            padding: 18px 22px;
-            border: 2px solid #475569;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-            background: #1e293b;
-            color: #e2e8f0;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            background: #334155;
-        }
-
-        .form-group input:hover,
-        .form-group select:hover {
-            border-color: #5eead4;
-        }
-
-        .role-group {
-            position: relative;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .custom-select {
-            position: relative;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .custom-select select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            width: 100%;
-            padding: 18px 50px 18px 22px;
-            border: 2px solid #475569;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            background: #1e293b;
-            color: #e2e8f0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .custom-select select:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
-        }
-
-        .custom-select select:hover {
-            border-color: #5eead4;
-        }
-
-        .custom-select::after {
-            content: "▼";
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            color: #5eead4;
-            pointer-events: none;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .custom-select:hover::after {
-            color: #10b981;
-        }
-
-        .phone-group {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .country-select-container {
-            position: relative;
-            flex: 0 0 160px;
-        }
-
-        #countrySearch {
-            width: 100%;
-            padding: 18px 22px;
-            border: 2px solid #475569;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            background: #1e293b;
-            color: #e2e8f0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            appearance: none;
-        }
-
-        #countrySearch:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
-        }
-
-        #countryDropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            max-height: 200px;
-            overflow-y: auto;
-            background: #1e293b;
-            border: 1px solid #475569;
-            border-radius: 0 0 12px 12px;
-            z-index: 10;
-            display: none;
-            margin-top: -2px;
-            /* Scrollbar styling */
-            scrollbar-width: thin;
-            scrollbar-color: #475569 #1e293b;
-        }
-
-        #countryDropdown::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        #countryDropdown::-webkit-scrollbar-track {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-
-        #countryDropdown::-webkit-scrollbar-thumb {
-            background-color: #475569;
-            border-radius: 4px;
-        }
-
-        .country-option {
-            padding: 8px 12px;
-            color: #e2e8f0;
-            cursor: pointer;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .country-option:hover {
-            background: #334155;
-        }
-
-        .phone-input {
-            flex: 1;
-        }
-
-        .phone-input input {
-            width: 100%;
-            padding: 18px 22px;
-            border: 2px solid #475569;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            background: #1e293b;
-            color: #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .phone-input input:focus {
-            outline: none;
-            border-color: #10b981;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.1);
-            background: #334155;
-        }
-
-        .phone-input input:hover {
-            border-color: #5eead4;
-        }
-
-        .other-role-container {
-            margin-top: 18px;
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .other-role-container.show {
-            opacity: 1;
-            max-height: 100px;
-            margin-top: 18px;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #0d9488, #115e59);
-            color: white;
-            border: none;
-            padding: 20px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 6px 15px rgba(13, 148, 136, 0.4);
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            max-width: 420px;
-            letter-spacing: 0.5px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.6);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .confirmation {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid #10b981;
-            border-radius: 16px;
-            padding: 40px;
-            text-align: center;
-            display: none;
-            margin-top: 35px;
-            width: 100%;
-            max-width: 520px;
-            animation: fadeIn 0.7s ease;
-            backdrop-filter: blur(4px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .confirmation::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #10b981, #0d9488);
-        }
-
-        .confirmation.show {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .confirmation i {
-            font-size: 4rem;
-            color: #10b981;
-            margin-bottom: 25px;
-            background: rgba(16, 185, 129, 0.1);
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            transition: all 0.3s ease;
-        }
-
-        .confirmation:hover i {
-            transform: scale(1.1);
-        }
-
-        .confirmation h2 {
-            color: #a7f3d0;
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-
-        .glowing-text {
-            color: #5eead4;
-            font-weight: bold;
-            font-size: 1.25rem;
-            text-shadow: 0 0 10px rgba(94, 234, 212, 0.7), 0 0 20px rgba(94, 234, 212, 0.5), 0 0 30px rgba(94, 234, 212, 0.3);
-            animation: glow 2s ease-in-out infinite alternate;
-            margin-top: 8px;
-            padding: 8px 16px;
-            background: rgba(94, 234, 212, 0.1);
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px rgba(94, 234, 212, 0.7), 0 0 20px rgba(94, 234, 212, 0.5), 0 0 30px rgba(94, 234, 212, 0.3);
-            }
-            to {
-                text-shadow: 0 0 15px rgba(94, 234, 212, 0.9), 0 0 25px rgba(94, 234, 212, 0.7), 0 0 35px rgba(94, 234, 212, 0.5), 0 0 45px rgba(94, 234, 212, 0.3);
-            }
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 14px;
-            margin-top: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .glow-btn {
-            padding: 8px 16px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-            min-width: 140px;
-            height: 38px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .tools-btn {
-            background: linear-gradient(135deg, #0d9488, #115e59);
-            animation: glowGreen 2s ease-in-out infinite alternate;
-        }
-
-        .call-btn {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            animation: glowPurple 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glowGreen {
-            from {
-                box-shadow: 0 0 6px rgba(13, 148, 136, 0.6), 0 0 12px rgba(13, 148, 136, 0.4);
-            }
-            to {
-                box-shadow: 0 0 12px rgba(13, 148, 136, 0.9), 0 0 18px rgba(13, 148, 136, 0.6);
-            }
-        }
-
-        @keyframes glowPurple {
-            from {
-                box-shadow: 0 0 6px rgba(139, 92, 246, 0.6), 0 0 12px rgba(139, 92, 246, 0.4);
-            }
-            to {
-                box-shadow: 0 0 12px rgba(139, 92, 246, 0.9), 0 0 18px rgba(139, 92, 246, 0.6);
-            }
-        }
-
-        .glow-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 600px) {
-            .header {
-                padding: 40px 20px 30px;
-            }
-            .header h1 {
-                font-size: 2rem;
-            }
-            .header p {
-                font-size: 1.1rem;
-            }
-            .content {
-                padding: 40px 20px;
-            }
-            .form-container {
-                padding: 35px 20px;
-            }
-            .value-props {
-                gap: 20px;
-            }
-            .form-group input,
-            .form-group select {
-                padding: 16px 20px;
-            }
-            .phone-group {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .country-select-container {
-                flex: 0 0 auto;
-            }
-            .submit-btn {
-                padding: 18px;
-            }
-            .glowing-text {
-                font-size: 1.15rem;
-                padding: 6px 12px;
-            }
-            /* Stack buttons vertically on mobile */
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 12px;
-            }
-            .glow-btn {
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-            }
-        }
-
-        .input-icon {
-            position: relative;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .input-icon i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #5eead4;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .input-icon:hover i {
-            color: #10b981;
-        }
-
-        .input-icon input {
-            padding-left: 55px;
-        }
-
-        .security-note {
-            text-align: center;
-            font-size: 0.9rem;
+        .subtitle {
+            font-size: 16px;
             color: #94a3b8;
-            margin-top: 15px;
-            max-width: 420px;
-            padding: 10px;
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
-        .security-note:hover {
-            background: rgba(30, 41, 59, 0.7);
-            color: #a7f3d0;
+        .about-solven {
+            background: #2a2a2a;
+            padding: 10mm;
+            border-radius: 8px;
+            margin: 15mm 0;
+            border: 1px solid #374151;
+            page-break-inside: avoid;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10mm;
+            margin: 15mm 0;
+            page-break-inside: avoid;
+        }
+
+        .stat-card {
+            background: #2a2a2a;
+            padding: 10mm;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #374151;
+            page-break-inside: avoid;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 2mm;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .platform-highlight {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 10mm;
+            border-radius: 6px;
+            margin: 15mm 0;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        .platform-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 3mm;
+        }
+
+        .platform-desc {
+            color: #e0f2fe;
+            font-size: 12px;
+        }
+
+        .section {
+            margin-bottom: 20mm;
+            padding: 10mm;
+            background: #242424;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 10mm;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10mm;
+            margin: 10mm 0;
+            page-break-inside: avoid;
+        }
+
+        .feature-card {
+            background: #2a2a2a;
+            padding: 10mm;
+            border-radius: 6px;
+            border: 1px solid #374151;
+            page-break-inside: avoid;
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5mm;
+        }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 5mm;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: #93c5fd;
+        }
+
+        .benefit-list {
+            list-style: none;
+            margin: 5mm 0;
+        }
+
+        .benefit-list li {
+            padding: 2mm 0;
+            padding-left: 10mm;
+            position: relative;
+        }
+
+        .benefit-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-weight: bold;
+        }
+
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15mm 0;
+            flex-wrap: nowrap;
+            page-break-inside: avoid;
+        }
+
+        .process-step {
+            text-align: center;
+            flex: 1;
+            min-width: 80px;
+            padding: 5mm;
+        }
+
+        .process-icon {
+            width: 30px;
+            height: 30px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            margin: 0 auto 5mm;
+            font-weight: bold;
+        }
+
+        .process-arrow {
+            font-size: 18px;
+            color: #666;
+            margin: 0 5mm;
+        }
+
+        .quote {
+            background: #2a2a2a;
+            padding: 10mm;
+            border-left: 4px solid #8b5cf6;
+            margin: 15mm 0;
+            font-style: italic;
+            color: #cbd5e1;
+            page-break-inside: avoid;
+        }
+
+        .service-description {
+            color: #cbd5e1;
+            margin-bottom: 5mm;
+        }
+
+        .solution-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 5mm;
+            display: flex;
+            align-items: center;
+            padding: 5mm 0;
+            border-bottom: 2px solid #3b82f6;
+            margin-bottom: 15mm;
+        }
+
+        .solution-title .number {
+            background: #3b82f6;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10mm;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        @media print {
+            body {
+                background: #1a1a1a;
+                color: #e0e0e0;
+            }
+            
+            .pdf-container {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+            }
+            
+            .page {
+                padding: 20mm;
+                min-height: 297mm;
+                background: #1a1a1a;
+                color: #e0e0e0;
+                margin: 0;
+                border: none;
+                box-shadow: none;
+            }
+            
+            .page:last-child {
+                page-break-after: auto;
+            }
+            
+            .page-number {
+                display: block;
+            }
+            
+            .header {
+                border-bottom: 2px solid #404040;
+            }
+            
+            .logo, .title, .subtitle {
+                color: #f0f0f0;
+            }
+            
+            .section {
+                background: #242424;
+                border-left: 4px solid #3b82f6;
+            }
+            
+            .feature-card {
+                background: #2a2a2a;
+                border: 1px solid #374151;
+            }
+            
+            .stat-card {
+                background: #2a2a2a;
+                border: 1px solid #374151;
+            }
+            
+            .about-solven {
+                background: #2a2a2a;
+                border: 1px solid #374151;
+            }
+            
+            .platform-highlight {
+                background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            }
+            
+            .section-title, .feature-name, .service-name {
+                color: #60a5fa;
+            }
+            
+            .benefit-list li::before {
+                color: #3b82f6;
+            }
+            
+            .solution-title {
+                color: #60a5fa;
+                border-bottom: 2px solid #3b82f6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page {
+                padding: 15mm;
+                min-height: auto;
+            }
+            
+            .title {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>You Are One Step Away</h1>
-            <p>Get our exclusive list of 10 AI tools that are revolutionizing how businesses operate. Me and my team personally use them every day.</p>
+    <div class="pdf-container">
+        <!-- Page 1 -->
+        <div class="page">
+            <div class="header">
+                <div class="logo">SOLVEN.APP</div>
+                <h1 class="title">Real Estate Automation Platform</h1>
+                <p class="subtitle">Complete Solution for Modern Real Estate Professionals</p>
+            </div>
             
-            <div class="value-props">
-                <div class="value-prop">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Time-Saving</h3>
-                    <p>Automate repetitive tasks</p>
+            <div class="about-solven">
+                <h3 style="color: #60a5fa; margin-bottom: 5mm;">About Solven.app</h3>
+                <p>Solven.app is a solution hub that provides AI and automation solutions to businesses. We specialize in creating intelligent systems that streamline operations and increase efficiency across various industries, including real estate.</p>
+            </div>
+            
+            <div style="text-align: center; margin: 20mm 0;">
+                <h2 style="font-size: 24px; color: #f0f0f0; margin-bottom: 10mm;">Transform Your Real Estate Business</h2>
+                <p style="color: #94a3b8; max-width: 150mm; margin: 0 auto;">
+                    All-in-one platform to automate leads, manage clients, and close deals faster than ever before.
+                </p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Lead Response</div>
                 </div>
-                <div class="value-prop">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>ROI Boost</h3>
-                    <p>Increase efficiency & profits</p>
+                <div class="stat-card">
+                    <div class="stat-number">90%</div>
+                    <div class="stat-label">Time Saved</div>
                 </div>
-                <div class="value-prop">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>Secure</h3>
-                    <p>Enterprise-grade security</p>
+                <div class="stat-card">
+                    <div class="stat-number">5x</div>
+                    <div class="stat-label">Deal Velocity</div>
                 </div>
             </div>
+            
+            <div class="platform-highlight">
+                <div class="platform-name">Solven.app</div>
+                <div class="platform-desc">The only platform you need for real estate automation</div>
+            </div>
+            
+            <div class="page-number">1</div>
         </div>
-        
-        <div class="content">
-            <form id="leadForm" class="form-container">
-                <div class="form-group">
-                    <label for="fullName"><i class="fas fa-user"></i> Full Name <span class="required">*</span></label>
-                    <div class="input-icon">
-                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email"><i class="fas fa-envelope"></i> Email Address <span class="required">*</span></label>
-                    <div class="input-icon">
-                        <input type="email" id="email" name="email" placeholder="Enter your professional email" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone"><i class="fas fa-phone"></i> Phone Number <span class="required">*</span></label>
-                    <div class="phone-group">
-                        <div class="country-select-container">
-                            <input type="text" id="countrySearch" placeholder="Country" readonly>
-                            <div id="countryDropdown"></div>
-                        </div>
-                        <div class="phone-input">
-                            <input type="tel" id="phone" name="phone" placeholder="Phone number" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="role"><i class="fas fa-user-tie"></i> Role <span class="required">*</span></label>
-                    <div class="role-group">
-                        <div class="custom-select">
-                            <select id="role" name="role" required>
-                                <option value="" disabled selected>Select your role</option>
-                                <option value="Founder">Founder</option>
-                                <option value="CEO">CEO</option>
-                                <option value="Creator">Creator</option>
-                                <option value="Student">Student</option>
-                                <option value="Developer">Developer</option>
-                                <option value="Others">Others</option>
-                            </select>
-                        </div>
-                        
-                        <div class="other-role-container" id="otherRoleContainer">
-                            <input type="text" id="otherRole" name="otherRole" placeholder="Please specify your role">
-                        </div>
-                    </div>
-                </div>
-                
-                <button type="submit" class="submit-btn">
-                    <i class="fas fa-download"></i> Get My AI Tools List
-                </button>
-                
-                <div class="security-note">
-                    <i class="fas fa-lock"></i> Your data is safe. Tools list will be sent directly to your email.
-                </div>
-            </form>
+
+        <!-- Page 2 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="title">Platform Overview</h1>
+                <p class="subtitle">Complete Real Estate Automation Suite</p>
+            </div>
             
-            <div class="confirmation" id="confirmation">
-                <i class="fas fa-check-circle"></i>
-                <h2>Tools list In your email has been sent!</h2>
-                <div class="glowing-text">Don't forget to check your Spam box!</div>
+            <div class="section">
+                <h3 class="section-title">What is Solven.app for Real Estate?</h3>
+                <p>Solven.app's real estate automation platform is a comprehensive solution designed specifically for agents and brokers who want to streamline their operations, increase efficiency, and close more deals. As part of our solution hub, we've tailored our AI and automation expertise specifically for the real estate industry.</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Core Philosophy</h3>
+                <p>We believe that real estate success comes from building relationships and closing deals, not from managing administrative tasks. Solven.app handles the routine so you can focus on what matters most.</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">1</div>
+                        <div class="feature-name">All-in-One Platform</div>
+                    </div>
+                    <p>Everything you need in a single, integrated solution</p>
+                </div>
                 
-                <div class="action-buttons">
-                    <a href="https://tools.solven.app/" target="_blank" class="glow-btn tools-btn">
-                        <i class="fas fa-tools"></i> Get Our Tools!
-                    </a>
-                    <a href="https://calendly.com/tasinmid/30min" target="_blank" class="glow-btn call-btn">
-                        <i class="fas fa-calendar-check"></i> Book a Free Call
-                    </a>
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">2</div>
+                        <div class="feature-name">Intelligent Automation</div>
+                    </div>
+                    <p>AI-powered tools that learn and adapt to your workflow</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">3</div>
+                        <div class="feature-name">Seamless Integration</div>
+                    </div>
+                    <p>Works with your existing tools and systems</p>
                 </div>
             </div>
+            
+            <div class="section">
+                <h3 class="section-title">Why Choose Solven.app?</h3>
+                <ul class="benefit-list">
+                    <li>Trusted by thousands of real estate professionals</li>
+                    <li>Proven results with measurable ROI</li>
+                    <li>Continuous innovation and updates</li>
+                    <li>24/7 customer support</li>
+                    <li>Secure and reliable infrastructure</li>
+                </ul>
+            </div>
+            
+            <div class="page-number">2</div>
+        </div>
+
+        <!-- Page 3 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="solution-title">
+                    <span class="number">1</span>
+                    Lead Management System
+                </h1>
+                <p class="subtitle">Capture, Qualify, and Convert Every Lead</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">AI-Powered Lead Capture</h3>
+                <p>Solven.app's intelligent system captures leads from multiple channels and qualifies them automatically.</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">L</div>
+                        <div class="feature-name">Multi-Channel Lead Capture</div>
+                    </div>
+                    <div class="service-description">Comprehensive lead collection from all your marketing channels</div>
+                    <ul class="benefit-list">
+                        <li>Website forms and chat integration</li>
+                        <li>Social media lead capture</li>
+                        <li>WhatsApp and SMS lead collection</li>
+                        <li>Email campaign responses</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">Q</div>
+                        <div class="feature-name">Smart Lead Qualification</div>
+                    </div>
+                    <div class="service-description">Intelligent system to assess lead quality and intent</div>
+                    <ul class="benefit-list">
+                        <li>Automated qualification questions</li>
+                        <li>Budget and timeline assessment</li>
+                        <li>Buyer/seller intent analysis</li>
+                        <li>Priority scoring system</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">S</div>
+                        <div class="feature-name">Automated Scheduling System</div>
+                    </div>
+                    <div class="service-description">Seamless appointment booking and management</div>
+                    <ul class="benefit-list">
+                        <li>Automated scheduling workflows</li>
+                        <li>Calendar integration</li>
+                        <li>Reminders and confirmations</li>
+                        <li>Follow-up automation</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Lead Response Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Qualification Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">Conversion Rate</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Real Impact</h3>
+                <p>Agents using Solven.app report a 40% increase in qualified leads and a 30% reduction in lead response time.</p>
+            </div>
+            
+            <div class="page-number">3</div>
+        </div>
+
+        <!-- Page 4 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="solution-title">
+                    <span class="number">2</span>
+                    Property Recommendation Engine
+                </h1>
+                <p class="subtitle">AI-Powered Matching for Faster Sales</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Intelligent Property Matching</h3>
+                <p>Solven.app's AI analyzes client preferences and property characteristics to find the perfect matches.</p>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="process-icon">1</div>
+                    <h4>Client Input</h4>
+                    <p>Preferences & Needs</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="process-icon">2</div>
+                    <h4>AI Analysis</h4>
+                    <p>Match Algorithm</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="process-icon">3</div>
+                    <h4>Property Match</h4>
+                    <p>Best Fit Results</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Key Features</h3>
+                <ul class="benefit-list">
+                    <li>Personalized search experience</li>
+                    <li>Learning algorithm improves over time</li>
+                    <li>Multi-criteria matching parameters</li>
+                    <li>Real-time inventory updates</li>
+                    <li>Client preference tracking</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Example Scenario</h3>
+                <p>When a client specifies "3-bedroom in Banani with budget under 1.2 crore", our system instantly presents the most relevant listings from your portfolio.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">80%</div>
+                    <div class="stat-label">Match Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4x</div>
+                    <div class="stat-label">Faster Matching</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+            </div>
+            
+            <div class="page-number">4</div>
+        </div>
+
+        <!-- Page 5 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="solution-title">
+                    <span class="number">3</span>
+                    Document Automation
+                </h1>
+                <p class="subtitle">Streamline Your Paperwork with AI</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Automated Documentation</h3>
+                <p>Solven.app eliminates manual paperwork with intelligent document generation and management.</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">C</div>
+                        <div class="feature-name">Contract Generation System</div>
+                    </div>
+                    <div class="service-description">Professional contracts generated instantly with client data</div>
+                    <ul class="benefit-list">
+                        <li>Pre-filled with client information</li>
+                        <li>Compliant with local regulations</li>
+                        <li>Customizable templates</li>
+                        <li>Instant generation capability</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">I</div>
+                        <div class="feature-name">Invoice Generation System</div>
+                    </div>
+                    <div class="service-description">Professional invoices created automatically</div>
+                    <ul class="benefit-list">
+                        <li>Professional formatting</li>
+                        <li>Automatic calculations</li>
+                        <li>Delivery integration</li>
+                        <li>Payment tracking</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">R</div>
+                        <div class="feature-name">Report Generation System</div>
+                    </div>
+                    <div class="service-description">Comprehensive business reports at your fingertips</div>
+                    <ul class="benefit-list">
+                        <li>Performance analytics</li>
+                        <li>Client activity reports</li>
+                        <li>Market analysis</li>
+                        <li>Monthly summaries</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">90%</div>
+                    <div class="stat-label">Time Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Errors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Click Process</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Impact on Workflow</h3>
+                <p>Agents save an average of 5 hours per week on administrative tasks, allowing more time for client interactions and deal closing.</p>
+            </div>
+            
+            <div class="page-number">5</div>
+        </div>
+
+        <!-- Page 6 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="solution-title">
+                    <span class="number">4</span>
+                    Communication Automation
+                </h1>
+                <p class="subtitle">Never Miss a Follow-Up Again</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Smart Follow-Up System</h3>
+                <p>Solven.app ensures consistent communication with intelligent follow-up automation.</p>
+            </div>
+            
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="process-icon">A</div>
+                    <h4>Track</h4>
+                    <p>Communication History</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="process-icon">B</div>
+                    <h4>Plan</h4>
+                    <p>Next Follow-Up</p>
+                </div>
+                <div class="process-arrow">→</div>
+                <div class="process-step">
+                    <div class="process-icon">C</div>
+                    <h4>Execute</h4>
+                    <p>Send Reminder</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Voice-to-CRM Integration</h3>
+                <p>Record voice notes on the go that automatically update your CRM:</p>
+                <div style="background: #2a2a2a; padding: 10mm; border-radius: 6px; margin: 10mm 0; border: 1px solid #374151; font-style: italic;">
+                    "Met with Mr. Ahmed, looking for a 3-bedroom in Banani, budget 1.2 crore."
+                </div>
+                <p style="margin-top: 10mm;"><strong>Result:</strong> Information automatically updates in your CRM.</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Communication Features</h3>
+                <ul class="benefit-list">
+                    <li>Automated follow-up sequences</li>
+                    <li>Personalized messaging</li>
+                    <li>Multichannel delivery</li>
+                    <li>Response tracking</li>
+                    <li>Re-engagement campaigns</li>
+                </ul>
+            </div>
+            
+            <div class="page-number">6</div>
+        </div>
+
+        <!-- Page 7 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="solution-title">
+                    <span class="number">5</span>
+                    CRM Integration
+                </h1>
+                <p class="subtitle">Seamless Workflow Management</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Custom CRM Automations</h3>
+                <p>Solven.app integrates with your existing CRM or provides our own solution tailored to your workflow.</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">D</div>
+                        <div class="feature-name">Daily Data Sync</div>
+                    </div>
+                    <div class="service-description">Automatic synchronization of your data</div>
+                    <p>Automatically sync data with your CRM daily</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">F</div>
+                        <div class="feature-name">File Management System</div>
+                    </div>
+                    <div class="service-description">Automatic organization of your files</div>
+                    <p>Automatic creation/deletion of files as deals progress</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">N</div>
+                        <div class="feature-name">Notification Center</div>
+                    </div>
+                    <div class="service-description">Real-time alerts and updates</div>
+                    <p>Real-time alerts for new leads and important updates</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Integration Capabilities</h3>
+                <ul class="benefit-list">
+                    <li>Google Sheets integration</li>
+                    <li>Popular CRM systems</li>
+                    <li>Email marketing platforms</li>
+                    <li>Accounting software</li>
+                    <li>Calendar systems</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Custom Solutions</h3>
+                <p>"Tell us your routine — we'll automate it." We create custom workflows based on your specific business processes.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Workflow Efficiency</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Data Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Time Savings</div>
+                </div>
+            </div>
+            
+            <div class="page-number">7</div>
+        </div>
+
+        <!-- Page 8 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="solution-title">
+                    <span class="number">6</span>
+                    Website Enhancement
+                </h1>
+                <p class="subtitle">Smart Integration for Better Results</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Intelligent Website Features</h3>
+                <p>Solven.app seamlessly integrates with your website to enhance functionality and user experience.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">+50%</div>
+                    <div class="stat-label">Lead Generation</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">+30%</div>
+                    <div class="stat-label">Engagement</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">+40%</div>
+                    <div class="stat-label">Conversions</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Enhancement Features</h3>
+                <ul class="benefit-list">
+                    <li>Lead collection automation</li>
+                    <li>Property recommendation engine</li>
+                    <li>Visitor chat capabilities</li>
+                    <li>Dynamic content personalization</li>
+                    <li>Performance analytics</li>
+                    <li>SEO optimization</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Multi-Platform Support</h3>
+                <p>Works seamlessly across all devices and platforms, ensuring your clients have the best experience regardless of how they access your site.</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Future-Ready</h3>
+                <p>Our website integration continues to evolve with new features and capabilities, ensuring your online presence stays ahead of the competition.</p>
+            </div>
+            
+            <div class="page-number">8</div>
+        </div>
+
+        <!-- Page 9 -->
+        <div class="page">
+            <div class="header">
+                <h1 class="title">Results & Pricing</h1>
+                <p class="subtitle">Proven ROI and Flexible Plans</p>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Proven Results</h3>
+                <p>Real estate professionals using Solven.app see significant improvements in their business metrics:</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Increase in Leads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">35%</div>
+                    <div class="stat-label">Faster Deal Closure</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Time Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">25%</div>
+                    <div class="stat-label">Revenue Growth</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Success Stories</h3>
+                <ul class="benefit-list">
+                    <li>"Increased my monthly closed deals by 50% in 3 months"</li>
+                    <li>"Reduced administrative time by 80% - now focus on clients"</li>
+                    <li>"Best investment I've made for my real estate business"</li>
+                    <li>"Client satisfaction scores improved significantly"</li>
+                    <li>"ROI paid for itself in the first month"</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Flexible Pricing</h3>
+                <ul class="benefit-list">
+                    <li>Free trial available</li>
+                    <li>Monthly or annual plans</li>
+                    <li>Custom enterprise solutions</li>
+                    <li>No setup fees</li>
+                    <li>Cancel anytime</li>
+                </ul>
+            </div>
+            
+            <div class="about-solven">
+                <h3 style="color: #60a5fa; margin-bottom: 5mm;">About Solven.app</h3>
+                <p>As a solution hub, Solven.app provides AI and automation solutions to businesses across various industries. Visit us at <a href="https://solven.app/" style="color: #60a5fa; text-decoration: none;">https://solven.app/</a> to explore our complete range of automation solutions.</p>
+            </div>
+            
+            <div class="platform-highlight">
+                <div class="platform-name">Solven.app</div>
+                <div class="platform-desc">The future of real estate automation is here</div>
+            </div>
+            
+            <div class="page-number">9</div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // FULL ALPHABETICAL COUNTRY LIST (249 countries)
-            const countries = [
-                { name: "Afghanistan", code: "+93" },
-                { name: "Albania", code: "+355" },
-                { name: "Algeria", code: "+213" },
-                { name: "Andorra", code: "+376" },
-                { name: "Angola", code: "+244" },
-                { name: "Antigua and Barbuda", code: "+1-268" },
-                { name: "Argentina", code: "+54" },
-                { name: "Armenia", code: "+374" },
-                { name: "Australia", code: "+61" },
-                { name: "Austria", code: "+43" },
-                { name: "Azerbaijan", code: "+994" },
-                { name: "Bahamas", code: "+1-242" },
-                { name: "Bahrain", code: "+973" },
-                { name: "Bangladesh", code: "+880" },
-                { name: "Barbados", code: "+1-246" },
-                { name: "Belarus", code: "+375" },
-                { name: "Belgium", code: "+32" },
-                { name: "Belize", code: "+501" },
-                { name: "Benin", code: "+229" },
-                { name: "Bhutan", code: "+975" },
-                { name: "Bolivia", code: "+591" },
-                { name: "Bosnia and Herzegovina", code: "+387" },
-                { name: "Botswana", code: "+267" },
-                { name: "Brazil", code: "+55" },
-                { name: "Brunei", code: "+673" },
-                { name: "Bulgaria", code: "+359" },
-                { name: "Burkina Faso", code: "+226" },
-                { name: "Burundi", code: "+257" },
-                { name: "Cabo Verde", code: "+238" },
-                { name: "Cambodia", code: "+855" },
-                { name: "Cameroon", code: "+237" },
-                { name: "Canada", code: "+1" },
-                { name: "Central African Republic", code: "+236" },
-                { name: "Chad", code: "+235" },
-                { name: "Chile", code: "+56" },
-                { name: "China", code: "+86" },
-                { name: "Colombia", code: "+57" },
-                { name: "Comoros", code: "+269" },
-                { name: "Congo (Congo-Brazzaville)", code: "+242" },
-                { name: "Costa Rica", code: "+506" },
-                { name: "Croatia", code: "+385" },
-                { name: "Cuba", code: "+53" },
-                { name: "Cyprus", code: "+357" },
-                { name: "Czechia (Czech Republic)", code: "+420" },
-                { name: "Democratic Republic of the Congo", code: "+243" },
-                { name: "Denmark", code: "+45" },
-                { name: "Djibouti", code: "+253" },
-                { name: "Dominica", code: "+1-767" },
-                { name: "Dominican Republic", code: "+1-809" },
-                { name: "Ecuador", code: "+593" },
-                { name: "Egypt", code: "+20" },
-                { name: "El Salvador", code: "+503" },
-                { name: "Equatorial Guinea", code: "+240" },
-                { name: "Eritrea", code: "+291" },
-                { name: "Estonia", code: "+372" },
-                { name: "Eswatini (fmr. Swaziland)", code: "+268" },
-                { name: "Ethiopia", code: "+251" },
-                { name: "Fiji", code: "+679" },
-                { name: "Finland", code: "+358" },
-                { name: "France", code: "+33" },
-                { name: "Gabon", code: "+241" },
-                { name: "Gambia", code: "+220" },
-                { name: "Georgia", code: "+995" },
-                { name: "Germany", code: "+49" },
-                { name: "Ghana", code: "+233" },
-                { name: "Greece", code: "+30" },
-                { name: "Grenada", code: "+1-473" },
-                { name: "Guatemala", code: "+502" },
-                { name: "Guinea", code: "+224" },
-                { name: "Guinea-Bissau", code: "+245" },
-                { name: "Guyana", code: "+592" },
-                { name: "Haiti", code: "+509" },
-                { name: "Honduras", code: "+504" },
-                { name: "Hungary", code: "+36" },
-                { name: "Iceland", code: "+354" },
-                { name: "India", code: "+91" },
-                { name: "Indonesia", code: "+62" },
-                { name: "Iran", code: "+98" },
-                { name: "Iraq", code: "+964" },
-                { name: "Ireland", code: "+353" },
-                { name: "Israel", code: "+972" },
-                { name: "Italy", code: "+39" },
-                { name: "Jamaica", code: "+1-876" },
-                { name: "Japan", code: "+81" },
-                { name: "Jordan", code: "+962" },
-                { name: "Kazakhstan", code: "+7" },
-                { name: "Kenya", code: "+254" },
-                { name: "Kiribati", code: "+686" },
-                { name: "Kuwait", code: "+965" },
-                { name: "Kyrgyzstan", code: "+996" },
-                { name: "Laos", code: "+856" },
-                { name: "Latvia", code: "+371" },
-                { name: "Lebanon", code: "+961" },
-                { name: "Lesotho", code: "+266" },
-                { name: "Liberia", code: "+231" },
-                { name: "Libya", code: "+218" },
-                { name: "Liechtenstein", code: "+423" },
-                { name: "Lithuania", code: "+370" },
-                { name: "Luxembourg", code: "+352" },
-                { name: "Madagascar", code: "+261" },
-                { name: "Malawi", code: "+265" },
-                { name: "Malaysia", code: "+60" },
-                { name: "Maldives", code: "+960" },
-                { name: "Mali", code: "+223" },
-                { name: "Malta", code: "+356" },
-                { name: "Marshall Islands", code: "+692" },
-                { name: "Mauritania", code: "+222" },
-                { name: "Mauritius", code: "+230" },
-                { name: "Mexico", code: "+52" },
-                { name: "Micronesia", code: "+691" },
-                { name: "Moldova", code: "+373" },
-                { name: "Monaco", code: "+377" },
-                { name: "Mongolia", code: "+976" },
-                { name: "Montenegro", code: "+382" },
-                { name: "Morocco", code: "+212" },
-                { name: "Mozambique", code: "+258" },
-                { name: "Myanmar (Burma)", code: "+95" },
-                { name: "Namibia", code: "+264" },
-                { name: "Nauru", code: "+674" },
-                { name: "Nepal", code: "+977" },
-                { name: "Netherlands", code: "+31" },
-                { name: "New Zealand", code: "+64" },
-                { name: "Nicaragua", code: "+505" },
-                { name: "Niger", code: "+227" },
-                { name: "Nigeria", code: "+234" },
-                { name: "North Korea", code: "+850" },
-                { name: "North Macedonia", code: "+389" },
-                { name: "Norway", code: "+47" },
-                { name: "Oman", code: "+968" },
-                { name: "Pakistan", code: "+92" },
-                { name: "Palau", code: "+680" },
-                { name: "Palestine", code: "+970" },
-                { name: "Panama", code: "+507" },
-                { name: "Papua New Guinea", code: "+675" },
-                { name: "Paraguay", code: "+595" },
-                { name: "Peru", code: "+51" },
-                { name: "Philippines", code: "+63" },
-                { name: "Poland", code: "+48" },
-                { name: "Portugal", code: "+351" },
-                { name: "Qatar", code: "+974" },
-                { name: "Romania", code: "+40" },
-                { name: "Russia", code: "+7" },
-                { name: "Rwanda", code: "+250" },
-                { name: "Saint Kitts and Nevis", code: "+1-869" },
-                { name: "Saint Lucia", code: "+1-758" },
-                { name: "Saint Vincent and the Grenadines", code: "+1-784" },
-                { name: "Samoa", code: "+685" },
-                { name: "San Marino", code: "+378" },
-                { name: "Sao Tome and Principe", code: "+239" },
-                { name: "Saudi Arabia", code: "+966" },
-                { name: "Senegal", code: "+221" },
-                { name: "Serbia", code: "+381" },
-                { name: "Seychelles", code: "+248" },
-                { name: "Sierra Leone", code: "+232" },
-                { name: "Singapore", code: "+65" },
-                { name: "Slovakia", code: "+421" },
-                { name: "Slovenia", code: "+386" },
-                { name: "Solomon Islands", code: "+677" },
-                { name: "Somalia", code: "+252" },
-                { name: "South Africa", code: "+27" },
-                { name: "South Korea", code: "+82" },
-                { name: "South Sudan", code: "+211" },
-                { name: "Spain", code: "+34" },
-                { name: "Sri Lanka", code: "+94" },
-                { name: "Sudan", code: "+249" },
-                { name: "Suriname", code: "+597" },
-                { name: "Sweden", code: "+46" },
-                { name: "Switzerland", code: "+41" },
-                { name: "Syria", code: "+963" },
-                { name: "Tajikistan", code: "+992" },
-                { name: "Tanzania", code: "+255" },
-                { name: "Thailand", code: "+66" },
-                { name: "Timor-Leste", code: "+670" },
-                { name: "Togo", code: "+228" },
-                { name: "Tonga", code: "+676" },
-                { name: "Trinidad and Tobago", code: "+1-868" },
-                { name: "Tunisia", code: "+216" },
-                { name: "Turkey", code: "+90" },
-                { name: "Turkmenistan", code: "+993" },
-                { name: "Tuvalu", code: "+688" },
-                { name: "Uganda", code: "+256" },
-                { name: "Ukraine", code: "+380" },
-                { name: "United Arab Emirates", code: "+971" },
-                { name: "United Kingdom", code: "+44" },
-                { name: "United States", code: "+1" },
-                { name: "Uruguay", code: "+598" },
-                { name: "Uzbekistan", code: "+998" },
-                { name: "Vanuatu", code: "+678" },
-                { name: "Vatican City", code: "+39-06" },
-                { name: "Venezuela", code: "+58" },
-                { name: "Vietnam", code: "+84" },
-                { name: "Yemen", code: "+967" },
-                { name: "Zambia", code: "+260" },
-                { name: "Zimbabwe", code: "+263" }
-            ].sort((a, b) => a.name.localeCompare(b.name));
-
-            const countrySearch = document.getElementById('countrySearch');
-            const countryDropdown = document.getElementById('countryDropdown');
-            const phoneInput = document.getElementById('phone');
-            let selectedCountry = countries.find(c => c.name === "United States") || countries[0];
-
-            function renderCountryDropdown(filter = '') {
-                countryDropdown.innerHTML = '';
-                const filtered = countries.filter(c => 
-                    c.name.toLowerCase().includes(filter.toLowerCase()) || 
-                    c.code.replace(/\D/g, '').includes(filter.replace(/\D/g, ''))
-                );
-                filtered.forEach(country => {
-                    const option = document.createElement('div');
-                    option.className = 'country-option';
-                    option.textContent = `${country.name} (${country.code})`;
-                    option.addEventListener('click', () => {
-                        selectedCountry = country;
-                        countrySearch.value = country.name;
-                        countryDropdown.style.display = 'none';
-                    });
-                    countryDropdown.appendChild(option);
-                });
-                countryDropdown.style.display = filtered.length ? 'block' : 'none';
-            }
-
-            countrySearch.addEventListener('click', () => {
-                renderCountryDropdown();
-            });
-
-            countrySearch.addEventListener('input', (e) => {
-                renderCountryDropdown(e.target.value);
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!countrySearch.contains(e.target) && !countryDropdown.contains(e.target)) {
-                    countryDropdown.style.display = 'none';
-                }
-            });
-
-            phoneInput.addEventListener('input', () => {
-                const value = phoneInput.value;
-                if (value.startsWith('+')) {
-                    for (const country of countries) {
-                        if (value.startsWith(country.code)) {
-                            selectedCountry = country;
-                            countrySearch.value = country.name;
-                            break;
-                        }
-                    }
-                }
-            });
-
-            countrySearch.value = selectedCountry.name;
-
-            // Other form logic
-            const roleSelect = document.getElementById('role');
-            const otherRoleContainer = document.getElementById('otherRoleContainer');
-            const leadForm = document.getElementById('leadForm');
-            const confirmation = document.getElementById('confirmation');
-
-            roleSelect.addEventListener('change', function() {
-                if (this.value === 'Others') {
-                    otherRoleContainer.classList.add('show');
-                } else {
-                    otherRoleContainer.classList.remove('show');
-                    document.getElementById('otherRole').value = '';
-                }
-            });
-
-            leadForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const fullName = document.getElementById('fullName').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const phone = phoneInput.value.trim();
-                const role = document.getElementById('role').value;
-                const otherRole = document.getElementById('otherRole')?.value.trim() || '';
-
-                let isValid = true;
-
-                if (!fullName || !email || !phone || !role) {
-                    isValid = false;
-                    alert('Please fill in all required fields.');
-                }
-
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    isValid = false;
-                    alert('Please enter a valid email address.');
-                }
-
-                const phoneDigits = phone.replace(/\D/g, '');
-                if (phoneDigits.length < 7 || phoneDigits.length > 15) {
-                    isValid = false;
-                    alert('Please enter a valid phone number (7-15 digits).');
-                }
-
-                if (role === 'Others' && !otherRole) {
-                    isValid = false;
-                    alert('Please specify your role in the "Others" field.');
-                }
-
-                if (isValid) {
-                    const fullPhoneNumber = selectedCountry.code + phoneDigits;
-                    const payload = {
-                        name: fullName,
-                        email: email,
-                        role: role === 'Others' ? otherRole : role,
-                        phone: fullPhoneNumber,
-                        leadSource: "10 lead from yt"
-                    };
-
-                    navigator.sendBeacon('https://script.google.com/macros/s/AKfycbzndXwEV_-HL39P0hND9vjn6xI9U81gk9SqJDxO5VqtpLZeCirJ4xjAkKYTf5Va8-Da/exec', 
-                        JSON.stringify(payload));
-
-                    document.querySelector('.form-container').style.display = 'none';
-                    confirmation.classList.add('show');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
+
